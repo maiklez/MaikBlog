@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 
+@section('title')
+MaikBlog
+@stop
+
 @section('content')
 	
 	<!-- Current Posts -->
