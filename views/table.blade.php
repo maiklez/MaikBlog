@@ -33,7 +33,7 @@
                                     <div>{{ $post->title }}</div>
                                 </td>
 								<td class="table-text">
-                                    <div>{!!  $post->body !!}</div>
+                                    <div>{!!  substr($post->body,0, strpos($post->body, "</p>"))  !!}...<br>{{ $post->created_at }}</div>
                                 </td>
                                 
                                 <td class="table-text">
