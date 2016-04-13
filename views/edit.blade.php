@@ -30,6 +30,9 @@
   	              { title: 'Blocks', items: [
   	                { title: 'p', block: 'p' },
   	                { title: 'div', block: 'div' },
+  	                { title: 'terminal', block: 'p', classes: 'terminal' },
+  	                { title: 'terminal2', inline: 'span', classes: 'terminal' },
+  	                { title: 'Codigo', block: 'pre', classes: 'prettyprint linenums' },
   	                { title: 'pre', block: 'pre' }
   	              ] },
 

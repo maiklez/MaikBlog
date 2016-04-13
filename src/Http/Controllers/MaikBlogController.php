@@ -36,38 +36,22 @@ class MaikBlogController extends Controller
 		//dd(\Config::get("maikblog.message"));
 		$posts = Post::all();
 		
-// 		\Debugbar::info($posts);
-		
-// 		foreach ($posts as $post){
-			
-// 			\Debugbar::info($post);
-			
-// 			\Debugbar::info($post->author);
-// 		}
 		return view('maikblog::maikblog', [
 	        'posts' => $posts,
 	    ]);
 	}
 	
 	/**
-	 * Display a list of all blog post.
+	 * Display a list of all blog post to admin.
 	 *
 	 * @param  Request  $request
 	 * @return Response
 	 */
 	public function index(Request $request)
 	{
-		//dd(\Config::get("maikblog.message"));
+		
 		$posts = Post::all();
 	
-		// 		\Debugbar::info($posts);
-	
-		// 		foreach ($posts as $post){
-			
-		// 			\Debugbar::info($post);
-			
-		// 			\Debugbar::info($post->author);
-		// 		}
 		return view('maikblog::table', [
 				'posts' => $posts,
 		]);
@@ -95,9 +79,7 @@ class MaikBlogController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		//$this->authorize('admin',  Auth::user());
 		
-		\Debugbar::info($request->all());
 		
 		$this->validate($request, Post::storeRules());
 		
@@ -115,10 +97,7 @@ class MaikBlogController extends Controller
 	 */
 	public function show(Request $request, Post $post)
 	{
-		//$this->authorize('admin',  Auth::user());
-	
-		//ability = Ability::find($ability);
-		\Debugbar::info($post->comments);
+		
 		return view('maikblog::show', [
 				'post' => $post,
 				'comments' => $post->comments,
@@ -135,9 +114,6 @@ class MaikBlogController extends Controller
 	 */
 	public function edit(Request $request, Post $post)
 	{
-		//$this->authorize('admin',  Auth::user());
-		
-		//ability = Ability::find($ability);
 		
 		return view('maikblog::edit', [
 	        'post' => $post,
