@@ -139,8 +139,13 @@ class MaikBlogController extends Controller
 	{
 		$this->authorize('blog',  Auth::user());
 		
+		$categories = $post->categories();		
+		$tags = $post->tags();
+		
 		return view('maikblog::edit', [
 	        'post' => $post,
+				'categories' => $categories,
+				'tags' => $tags,
 	    ]);
 	}
 	
