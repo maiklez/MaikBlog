@@ -82,33 +82,38 @@ class MaikBlogController extends Controller
 	public function store(Request $request)
 	{
 		$this->authorize('blog',  Auth::user());
-		
-		$this->validate($request, Post::storeRules());
-		
-		$this->validate($request, Category::storeRules());
-		$this->validate($request, Tag::storeRules());
-		
-		$post = Post::create(Post::storeAttributes($request));
-		
-		$categories = explode(',', $request->categories);
-		// remove empty items from array
-		$categories = array_filter($categories);
-		// trim all the items in array
-		$categories =array_map('trim', $categories);
-		
-		$post->saveCategories($categories);
-		
-		$tags = explode(',', $request->tags);
-		
-		// remove empty items from array
-		$tags = array_filter($tags);
-		// trim all the items in array
-		$tags =array_map('trim', $tags);
-		
-		$post->saveTags($tags);
-		
-		
-		return redirect(route('blog'));
+    
+    	$this->validate($request, Post::storeRules());
+    
+    	$this->validate($request, Category::storeRules());
+    	$this->validate($request, Tag::storeRules());
+    	
+    	\DB::transaction(function () use ($request){
+    		$post = Post::create(Post::storeAttributes($request));
+    		
+    		$categories = explode(',', $request->categories);
+    		// remove empty items from array
+    		$categories = array_filter($categories);
+    		// trim all the items in array
+    		$categories =array_map('trim', $categories);
+    		
+    		$post->saveCategories($categories);   		 
+    		
+    		$tags = explode(',', $request->tags);
+    		
+    		// remove empty items from array
+    		$tags = array_filter($tags);
+    		// trim all the items in array
+    		$tags =array_map('trim', $tags);
+    		
+    		$post->saveTags($tags);
+    		    		
+    		
+    	});
+    	
+    
+    
+    	return redirect(route('blog'));
 	}
 	
 	/**
@@ -182,23 +187,26 @@ class MaikBlogController extends Controller
 	public function update(Request $request, Post $post)
 	{
 		$this->authorize('blog',  Auth::user());
-	
-		$post->update(Post::storeAttributes($request));
-		$categories = explode(',', $request->categories);
-		// remove empty items from array
-		$categories = array_filter($categories);
-		// trim all the items in array
-		$categories =array_map('trim', $categories);
 		
-		$post->saveCategories($categories);
+		\DB::transaction(function () use ($request, $post){
+			$post->update(Post::storeAttributes($request));
+			$categories = explode(',', $request->categories);
+			// remove empty items from array
+			$categories = array_filter($categories);
+			// trim all the items in array
+			$categories =array_map('trim', $categories);
+			
+			$post->saveCategories($categories);
+			
+			$tags = explode(',', $request->tags);
+			// remove empty items from array
+			$tags = array_filter($tags);
+			// trim all the items in array
+			$tags =array_map('trim', $tags);
+			
+			$post->saveTags($tags);
+		});
 		
-		$tags = explode(',', $request->tags);
-		// remove empty items from array
-		$tags = array_filter($tags);
-		// trim all the items in array
-		$tags =array_map('trim', $tags);
-		
-		$post->saveTags($tags);
 		
 		return redirect(route('post.edit', $post))->with('success', 'Profile updated!');
 	}

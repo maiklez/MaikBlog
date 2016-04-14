@@ -41,7 +41,7 @@ class Post extends Model
      */
     public function tags()
     {
-    	return $this->hasMany(Tag::class, 'post_tags', 'post', 'tag');
+    	return $this->belongsToMany(Tag::class, 'post_tags', 'post', 'tag');
     }
     
     /**
@@ -49,7 +49,7 @@ class Post extends Model
      */
     public function categories()
     {
-    	return $this->hasMany(Category::class, 'post_categories', 'post', 'category');
+    	return $this->belongsToMany(Category::class, 'post_categories', 'post', 'category');
     }
     
     
@@ -79,9 +79,11 @@ class Post extends Model
     		$tmp = Category::where('name', 'like', $eti)->get()->first();
     		if (is_null($tmp)){
     			$tmp = new Category(['name' => $eti]);
+    			$tmp->save();
     		}
-    		array_push($save_etis, $tmp);
+    		array_push($save_etis, $tmp->id);
     	}
+    	// \Debugbar::info($save_etis);
     	if(count($save_etis)>0) $this->categories()->sync($save_etis);
     }
     
@@ -97,9 +99,11 @@ class Post extends Model
     		$tmp = Tag::where('name', 'like', $eti)->get()->first();
     		if (is_null($tmp)){
     			$tmp = new Tag(['name' => $eti]);
+    			$tmp->save();
     		}
-    		array_push($save_etis, $tmp);
+    		array_push($save_etis, $tmp->id);
     	}
+    	// \Debugbar::info($save_etis);
     	if(count($save_etis)>0) $this->tags()->sync($save_etis);
     }
     
