@@ -71,7 +71,7 @@
                 <label for="post-title" class="col-sm-3 control-label">Post title</label>
 
                 <div class="col-sm-6">                    
-		    			{!! Form::text('title', old('name', isset($post) ? $post->title : null), 
+		    			{!! Form::text('title', old('title', isset($post) ? $post->title : null), 
 		    													array('class'=>'form-control', 'id'=>'post-title',
 		    													'placeholder'=>'Title',
 		    													'style'=>'')) !!}
@@ -79,9 +79,30 @@
                 </div>                
             </div>
             
+            <div class="form-group">
+                <label for="post-title" class="col-sm-3 control-label">Categories</label>
+
+                <div class="col-sm-6">                    
+		    			{!! Form::text('categories', old('categories', isset($categories) ? $categories : null), 
+		    													array('class'=>'form-control', 'id'=>'post-categories',
+		    													'placeholder'=>'Categories',
+		    													'style'=>'')) !!}
+		    			{!! $errors->first('categories', '<span class="help-block">:message</span>') !!}									   
+                </div>                
+            </div>
             
             
-            
+            <div class="form-group">
+                <label for="post-title" class="col-sm-3 control-label">Tags</label>
+
+                <div class="col-sm-6">                    
+		    			{!! Form::text('tags', old('tags', isset($tags) ? $tags : null), 
+		    													array('class'=>'form-control', 'id'=>'post-tags',
+		    													'placeholder'=>'Tags',
+		    													'style'=>'')) !!}
+		    			{!! $errors->first('tags', '<span class="help-block">:message</span>') !!}									   
+                </div>                
+            </div>
             
             
             <div class="form-group">
