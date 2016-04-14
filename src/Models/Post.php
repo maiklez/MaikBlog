@@ -36,6 +36,23 @@ class Post extends Model
     	return $this->hasMany(Comment::class, 'on_post');
     }
     
+    /**
+     * Get all of the tasks for the user.
+     */
+    public function tags()
+    {
+    	return $this->hasMany(Tag::class, 'post_tags', 'post', 'tag');
+    }
+    
+    /**
+     * Get all of the tasks for the user.
+     */
+    public function categories()
+    {
+    	return $this->hasMany(Category::class, 'post_categories', 'post', 'category');
+    }
+    
+    
     public static function  storeRules(){
     	return [
 				'title' => 'required|max:255',
@@ -51,4 +68,39 @@ class Post extends Model
     			'slug' => str_slug($request->title)
 		];
     }
+    
+    public function saveCategories ($categories){
+    
+    	$save_etis = [];
+    	foreach ($categories as $eti){
+    		$eti = trim($eti);
+    		$eti = html_entity_decode($eti);
+    			
+    		$tmp = Category::where('name', 'like', $eti)->get()->first();
+    		if (is_null($tmp)){
+    			$tmp = new Category(['name' => $eti]);
+    		}
+    		array_push($save_etis, $tmp);
+    	}
+    	if(count($save_etis)>0) $this->categories()->sync($save_etis);
+    }
+    
+    
+    
+    public function saveTags ($tags){
+    
+    	$save_etis = [];
+    	foreach ($tags as $eti){
+    		$eti = trim($eti);
+    		$eti = html_entity_decode($eti);
+    		 
+    		$tmp = Tag::where('name', 'like', $eti)->get()->first();
+    		if (is_null($tmp)){
+    			$tmp = new Tag(['name' => $eti]);
+    		}
+    		array_push($save_etis, $tmp);
+    	}
+    	if(count($save_etis)>0) $this->tags()->sync($save_etis);
+    }
+    
 }
