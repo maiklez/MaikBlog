@@ -8,19 +8,45 @@
     @if (count($posts) > 0)
         <div class="container">
     	<div class="row">
-        <div class="panel panel-default">
+        <div class="panel panel-post">
             <div class="panel-heading">
                 Current Posts
             </div>
-
+			
+			<div class="col-sm-12" ">
+			<div class="col-sm-3" style="display: flex;">
+				<span>Categories: .</span>
+				@foreach( $best_cat as $tag )
+				
+				<div class="">
+	               <span>{!! $tag->name !!} - {!! $tag->postCount !!}</span>
+	            </div>
+				
+				@endforeach
+			</div>
+			
+			<div class="col-sm-6" style="display: flex;">
+				<span>Tags: .</span>
+				@foreach( $best_tag as $tag )
+				
+				<div class="" >
+	               <span>{!! $tag->name !!} - {!! $tag->postCount !!} //</span>
+	           </div>
+				
+				@endforeach
+			</div>
+			</div>
+			
             <div class="panel-body">
                 <table class="table table-striped task-table">
 
                     <!-- Table Headings -->
                     <thead>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Users</th>
+                        <th>Title</th>
+                        <th>Categories</th>
+                        <th>Tags</th>
+                        <th>Body</th>
+                        <th>Author</th>
                         <th>&nbsp;</th>
                     </thead>
 
@@ -31,6 +57,12 @@
                                 <!-- Task Name -->
                                 <td class="table-text">
                                     <div>{{ $post->title }}</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>{{ $post->getCategoriesCommaSeparated() }}</div>
+                                </td>
+                                <td class="table-text">
+                                    <div>{{ $post->getTagsCommaSeparated() }}</div>
                                 </td>
 								<td class="table-text">
                                     <div>{!!  substr($post->body,0, strpos($post->body, "</p>"))  !!}...<br>{{ $post->created_at }}</div>

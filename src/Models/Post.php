@@ -52,6 +52,28 @@ class Post extends Model
     	return $this->belongsToMany(Category::class, 'post_categories', 'post', 'category');
     }
     
+    public function getCategoriesCommaSeparated(){
+    	$categories ="";
+	    foreach ($this->categories as $cat){
+	    	if($this->categories()->first() == $cat){
+	    		$categories = $cat->name;
+	    	}else{
+	    		$categories = $categories .', '. $cat->name;
+	    	}
+	    }
+    	return $categories;
+    }
+    public function getTagsCommaSeparated(){
+    	$tags ="";
+    	foreach ($this->tags as $tag){
+    		if($this->tags()->first() == $tag){
+    			$tags = $tag->name;
+    		}else{
+    			$tags = $tags .', '. $tag->name;
+    		}
+    	}
+    	return $tags;
+    }
     
     public static function  storeRules(){
     	return [

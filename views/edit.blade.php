@@ -53,8 +53,8 @@
 <div class="container">
     
     <div class="row">    
-		<div class="panel panel-default">
-			<div class="panel-heading">Add New Post</div>
+		<div class="panel panel-post">
+			<div class="panel-heading">Edit The Post</div>
 	            
 		    <div class="panel-body">
 		        <!-- Display Validation Errors -->
@@ -80,9 +80,18 @@
                 </div>                
             </div>
             
+            
+            <div class="col-sm-12">
+	            @foreach( $best_cat as $cat )		            
+		            {!! $cat->name  !!} 
+	            @endforeach
+            </div>
+            
             <div class="form-group">
+                
+                
                 <label for="post-title" class="col-sm-3 control-label">Categories</label>
-
+				
                 <div class="col-sm-6">                    
 		    			{!! Form::text('categories', old('categories', isset($categories) ? $categories : null), 
 		    													array('class'=>'form-control', 'id'=>'post-categories',
@@ -91,8 +100,7 @@
 		    			{!! $errors->first('categories', '<span class="help-block">:message</span>') !!}									   
                 </div>                
             </div>
-            
-            
+			
             <div class="form-group">
                 <label for="post-title" class="col-sm-3 control-label">Tags</label>
 
@@ -104,9 +112,11 @@
 		    			{!! $errors->first('tags', '<span class="help-block">:message</span>') !!}									   
                 </div>                
             </div>
-            
-            
-            
+            <div class="col-sm-12">
+	            @foreach( $best_tag as $tag )		            
+		            {!! $tag->name  !!} 
+	            @endforeach
+            </div>
             
             <div class="form-group">
             

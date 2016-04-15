@@ -53,9 +53,17 @@ class MaikBlogController extends Controller
 	{
 		
 		$posts = Post::all();
-	
+		
+		$bestTag = Tag::with('postCount')->get()->sortByDesc('postCount');
+		
+		$bestCat = Category::with('postCount')->get()->sortByDesc('postCount');
+		
+		\Debugbar::info($bestTag);
+		
 		return view('maikblog::table', [
 				'posts' => $posts,
+				'best_tag' => $bestTag,
+				'best_cat' => $bestCat,
 		]);
 	}
 	
@@ -144,32 +152,20 @@ class MaikBlogController extends Controller
 	{
 		$this->authorize('blog',  Auth::user());
 		
-		$categories="";
-		//$categories = $post->categories;		
-		foreach ($post->categories as $cat){
-			if($post->categories()->first() == $cat){
-				$categories = $cat->name;
-			}else{
-				$categories = $categories .', '. $cat->name;
-			}		
-		}
+		$categories=$post->getCategoriesCommaSeparated();
 		
-		\Debugbar::info($categories);
-		$tags="";
-		foreach ($post->tags as $tag){
-			if($post->tags()->first() == $tag){
-				$tags = $tag->name;
-			}else{
-				$tags = $tags .', '. $tag->name;
-			}
-		}
-		\Debugbar::info($post->tags);
-		//$tags = $post->tags;
+		$tags=$post->getTagsCommaSeparated();		
+		
+		$bestCat = Category::with('postCount')->get()->sortByDesc('postCount');
+		
+		$bestTag = Tag::with('postCount')->get()->sortByDesc('postCount');
 		
 		return view('maikblog::edit', [
 	        'post' => $post,
 				'categories' => $categories,
 				'tags' => $tags,
+				'best_cat' => $bestCat,
+				'best_tag' => $bestTag,
 	    ]);
 	}
 	

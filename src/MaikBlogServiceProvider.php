@@ -53,6 +53,9 @@ class MaikBlogServiceProvider extends ServiceProvider{
 		
 			return true;
 		});
+		\Validator::replacer('tag_rule', function($message, $attribute, $rule, $parameters) {
+			return str_replace("no white spaces are allow");
+		});
 	}
 	/**
 	 * Define the routes for the application.
