@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 use Auth;
-use App\User;
 class Tag extends Model
 {	
 	protected $table="tags";
@@ -30,9 +29,15 @@ class Tag extends Model
     
     public static function  storeRules(){
     	return [
-				'tags' => 'required|max:255',
+				'tags' => 'required|max:255|tag_rule',
     			
 		];
+    }
+    
+    public function messages() {
+    	return [
+    			'validation.tag_rule' => 'The :attribute must have between :min and :max items.'];
+    
     }
     
     public static function  storeAttributes(Request $request){

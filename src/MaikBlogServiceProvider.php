@@ -37,6 +37,22 @@ class MaikBlogServiceProvider extends ServiceProvider{
 		$this->publishes([
 				realpath(__DIR__.'/../assets') => public_path('maiklez/maikblog'),
 		], 'public');
+		
+		\Validator::extend('tag_rule', function ($attribute, $value, $parameters)
+		{
+			$tags = explode(',', $value);
+			// remove empty items from array
+			$tags = array_filter($tags);
+			// trim all the items in array
+			$tags =array_map('trim', $tags);
+		
+			\Debugbar::info($tags);
+			foreach ($tags as $tag){
+				if($tag === "") return false;
+			}
+		
+			return true;
+		});
 	}
 	/**
 	 * Define the routes for the application.

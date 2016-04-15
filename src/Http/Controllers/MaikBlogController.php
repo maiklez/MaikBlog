@@ -144,8 +144,27 @@ class MaikBlogController extends Controller
 	{
 		$this->authorize('blog',  Auth::user());
 		
-		$categories = $post->categories();		
-		$tags = $post->tags();
+		$categories="";
+		//$categories = $post->categories;		
+		foreach ($post->categories as $cat){
+			if($post->categories()->first() == $cat){
+				$categories = $cat->name;
+			}else{
+				$categories = $categories .', '. $cat->name;
+			}		
+		}
+		
+		\Debugbar::info($categories);
+		$tags="";
+		foreach ($post->tags as $tag){
+			if($post->tags()->first() == $tag){
+				$tags = $tag->name;
+			}else{
+				$tags = $tags .', '. $tag->name;
+			}
+		}
+		\Debugbar::info($post->tags);
+		//$tags = $post->tags;
 		
 		return view('maikblog::edit', [
 	        'post' => $post,
@@ -188,6 +207,11 @@ class MaikBlogController extends Controller
 	{
 		$this->authorize('blog',  Auth::user());
 		
+		$this->validate($request, Post::storeRules());
+		
+		$this->validate($request, Category::storeRules());
+		$this->validate($request, Tag::storeRules());
+		
 		\DB::transaction(function () use ($request, $post){
 			$post->update(Post::storeAttributes($request));
 			$categories = explode(',', $request->categories);
@@ -203,6 +227,8 @@ class MaikBlogController extends Controller
 			$tags = array_filter($tags);
 			// trim all the items in array
 			$tags =array_map('trim', $tags);
+			
+			//\Debugbar::info($tags);
 			
 			$post->saveTags($tags);
 		});

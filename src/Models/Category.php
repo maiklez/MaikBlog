@@ -31,7 +31,7 @@ class Category extends Model
     
     public static function  storeRules(){
     	return [
-				'categories' => 'required|max:255',
+				'categories' => 'required|max:255|tag_rule',
     			
 		];
     }
