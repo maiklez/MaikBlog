@@ -1,7 +1,7 @@
 <?php namespace	Maiklez\MaikBlog;
 /**
  * 
- * @author maiklez <maik.ledzep@gmail>
+ * @author maiklez <maik.ledzep@gmail.com>
  */
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
