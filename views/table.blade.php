@@ -13,20 +13,20 @@
                 Current Posts
             </div>
 			
-			<div class="col-sm-12" ">
-			<div class="col-sm-3" style="display: flex;">
-				<span>Categories: .</span>
+			
+			<div class="col-sm-12" style="display: flex;">
+				<span>Categories: </span>
 				@foreach( $best_cat as $tag )
 				
 				<div class="">
-	               <span>{!! $tag->name !!} - {!! $tag->postCount !!}</span>
+	               <span>{!! $tag->name !!} - {!! $tag->postCount !!} //</span>
 	            </div>
 				
 				@endforeach
 			</div>
 			
-			<div class="col-sm-6" style="display: flex;">
-				<span>Tags: .</span>
+			<div class="col-sm-12" style="display: flex;">
+				<span>Tags: </span>
 				@foreach( $best_tag as $tag )
 				
 				<div class="" >
@@ -35,7 +35,7 @@
 				
 				@endforeach
 			</div>
-			</div>
+			
 			
             <div class="panel-body">
                 <table class="table table-striped task-table">
